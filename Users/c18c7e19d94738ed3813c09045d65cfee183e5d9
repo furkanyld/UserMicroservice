@@ -1,0 +1,98 @@
+[33mcommit 5f7a57b301a8c5f607fb2a27aecbeba6a132ebe4[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmaster[m[33m)[m
+Merge: c18c7e1 b1d3e8e
+Author: melihdemir0 <melihdemirr0@gmail.com>
+Date:   Thu Oct 17 16:01:33 2024 +0300
+
+    Merge branch 'master' of https://github.com/melihdemir0/UserMicroservice
+
+[33mcommit c18c7e19d94738ed3813c09045d65cfee183e5d9[m
+Author: melihdemir0 <melihdemirr0@gmail.com>
+Date:   Thu Oct 17 16:00:48 2024 +0300
+
+     push
+
+[33mcommit 266a999cc59de7abb9493d5633c9aae26ed66b9b[m
+Author: melihdemir0 <melihdemirr0@gmail.com>
+Date:   Thu Oct 17 15:52:15 2024 +0300
+
+    oldu mu
+
+[33mcommit bfcf199330d4850482bcd8bc82a058f96418a64a[m
+Author: melihdemir0 <melihdemirr0@gmail.com>
+Date:   Thu Oct 17 15:50:54 2024 +0300
+
+    son degisiklikler yapıldı.
+
+[33mcommit c35b631b183ad7ad01b55ccbef656817d8ca9356[m
+Author: melihdemir0 <melihdemirr0@gmail.com>
+Date:   Thu Oct 17 15:01:03 2024 +0300
+
+    setting database oluşturuldu
+
+[33mcommit b1d3e8e2402d5d0f064df874fc796e6339a73a84[m[33m ([m[1;31morigin/master[m[33m)[m
+Author: melihdemir0 <101056171+melihdemir0@users.noreply.github.com>
+Date:   Thu Oct 17 13:21:46 2024 +0300
+
+    Add files via upload
+    
+    lombok import edildi
+
+[33mcommit 3013c38e41d3fb888fc18d5e73e634e153c511d7[m
+Author: melihdemir0 <101056171+melihdemir0@users.noreply.github.com>
+Date:   Thu Oct 17 11:43:58 2024 +0300
+
+    Add files via upload
+    
+    entity oluşturuldu
+
+[33mcommit aad3e32b1b6ab5eeba1587fd98640e79abb1baec[m
+Author: melihdemir0 <101056171+melihdemir0@users.noreply.github.com>
+Date:   Wed Oct 16 20:14:32 2024 +0300
+
+    Add files via upload
+    
+    lombok kuruldu.
+
+[33mcommit c68dce8015809fe471f2b1d5b2598dd4c08e47f3[m
+Author: melihdemir0 <melihdemirr0@gmail.com>
+Date:   Wed Oct 16 19:33:10 2024 +0300
+
+    lombok eklendi
+
+[33mcommit 9c91813cd4e4e1ba90a5d6677ebf354bca245870[m
+Author: melihdemir0 <101056171+melihdemir0@users.noreply.github.com>
+Date:   Wed Oct 16 19:14:15 2024 +0300
+
+    Add files via upload
+    
+    Database Connecting
+
+[33mcommit 390889510da5ab92a8efb0e77d122c2214992a0e[m
+Author: melihdemir0 <melihdemirr0@gmail.com>
+Date:   Wed Oct 16 19:11:25 2024 +0300
+
+    database connecting
+
+[33mcommit fbd594655c470f2d82d6f4e4c74d886a61a14ca3[m
+Author: melihdemir0 <melihdemirr0@gmail.com>
+Date:   Wed Oct 16 19:01:33 2024 +0300
+
+    Database connecting
+
+[33mcommit 86071655e21835b508656d2c58c389b090dc7760[m
+Author: melihdemir0 <melihdemirr0@gmail.com>
+Date:   Thu Oct 10 14:03:30 2024 +0300
+
+    pom.xml
+
+[33mcommit f43ab22cff0a8d0958f2bdfeac4e3ae070c1ea12[m[33m ([m[1;31morigin/Melih[m[33m)[m
+Author: furkanyld <furkan16_yildiz@hotmail.com>
+Date:   Tue Oct 8 22:20:00 2024 +0300
+
+    Test
+
+[33mcommit b246def78987630c9d8537cace6989b863802493[m
+Author: melihdemir0 <melihdemirr0@gmail.com>
+Date:   Sat Oct 5 17:03:41 2024 +0300
+
+    First commit
