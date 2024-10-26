@@ -3,6 +3,7 @@ package tr.edu.ogu.ceng.Users.service;
 import java.util.List;
 
 import org.hibernate.service.JavaServiceLoadable;
+import org.springframework.stereotype.Service;
 
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -11,6 +12,7 @@ import tr.edu.ogu.ceng.Users.repository.RolesRepository;
 
 @RequiredArgsConstructor
 @JavaServiceLoadable
+@Service
 public class RolesService {
 
 	private final RolesRepository rolesrepository;

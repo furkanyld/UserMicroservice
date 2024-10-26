@@ -17,13 +17,13 @@ public class UserRolesService {
 
 	// Yeni bir kullanıcı rolü oluşturma
 	@Transactional
-	public UserRoles createUserRole(UserRoles userRole) {
+	public UserRoles createUserRoles(UserRoles userRole) {
 		return userrolesrepository.save(userRole); // Yeni kullanıcı rolünü kaydet
 	}
 
 	// Var olan bir kullanıcı rolünü güncelleme
 	@Transactional
-	public UserRoles updateUserRole(UserRoles userRole) {
+	public UserRoles updateUserRoles(UserRoles userRole) {
 		return userrolesrepository.save(userRole); // Var olan kullanıcı rolünü güncelle
 	}
 

@@ -1,5 +1,4 @@
-CREATE SCHEMA UsersApplication;
-CREATE TABLE UsersApplication.users (
+CREATE TABLE users_application.users (
     id BIGSERIAL PRIMARY KEY,
     username VARCHAR(255) NOT NULL,
     email VARCHAR(255) UNIQUE NOT NULL,
@@ -10,22 +9,22 @@ CREATE TABLE UsersApplication.users (
 );
 
 
-CREATE TABLE UsersApplication.roles (
+CREATE TABLE users_application.roles (
     id BIGSERIAL PRIMARY KEY,
     role_name VARCHAR(255) NOT NULL,
     description TEXT
 );
 
- CREATE TABLE UsersApplication.user_roles (
+ CREATE TABLE users_application.user_roles (
      id BIGSERIAL PRIMARY KEY,
-     user_id BIGINT REFERENCES UsersApplication.users(id) ON DELETE CASCADE,
-     role_id BIGINT REFERENCES UsersApplication.roles(id) ON DELETE CASCADE,
+     user_id BIGINT REFERENCES users_application.users(id) ON DELETE CASCADE,
+     role_id BIGINT REFERENCES users_application.roles(id) ON DELETE CASCADE,
      assigned_at TIMESTAMP NOT NULL DEFAULT NOW()
  );
 
- CREATE TABLE UsersApplication.password_reset_tokens (
+ CREATE TABLE users_application.password_reset_tokens (
      id BIGSERIAL PRIMARY KEY,
-     user_id BIGINT REFERENCES UsersApplication.users(id) ON DELETE CASCADE,
+     user_id BIGINT REFERENCES users_application.users(id) ON DELETE CASCADE,
      token VARCHAR(255) NOT NULL,
      created_at TIMESTAMP NOT NULL DEFAULT NOW(),
      expires_at TIMESTAMP NOT NULL
