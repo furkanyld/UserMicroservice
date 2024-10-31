@@ -38,6 +38,18 @@ public class Users {
 
     @Column(nullable = false)
     private LocalDateTime updatedAt;
+    
+    @Column(name = "created_by")
+    private String createdBy;
+
+    @Column(name = "updated_by")
+    private String updatedBy;
+
+    @Column(name = "deleted_by")
+    private String deletedBy;
+
+    @Column(name = "deleted_at")
+    private LocalDateTime deletedAt;
 
 
 

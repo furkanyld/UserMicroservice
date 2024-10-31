@@ -35,5 +35,20 @@ public class UserRoles {
     
     @Column(nullable = false)
     private LocalDateTime updatedAt;
+    
+    @Column(name = "created_by")
+    private String createdBy;
+
+    @Column(name = "created_at", nullable = false)
+    private LocalDateTime createdAt = LocalDateTime.now();
+
+    @Column(name = "updated_by")
+    private String updatedBy;
+
+    @Column(name = "deleted_by")
+    private String deletedBy;
+
+    @Column(name = "deleted_at")
+    private LocalDateTime deletedAt;
 
 }
