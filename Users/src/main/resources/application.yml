@@ -7,9 +7,9 @@ spring:
 
   datasource:
     enabled: true
-    url: jdbc:postgresql://localhost:5432/postgres
-    username: postgres
-    password: 123456
+    url: jdbc:postgresql://localhost:5432/ilerijava
+    username: devuser
+    password: devpassword
     default_schema: users_application
 
   flyway:
@@ -22,15 +22,14 @@ spring:
   jpa:
     hibernate:
       ddl-auto: none
-	  
-	  services:
-	    gateway: http://localhost:8001       # Gateway Servisi
-	    product: http://localhost:8002       # Ürün Servisi
-	    order: http://localhost:8003         # Sipariş Servisi
-	    notification: http://localhost:8004   # Bildirim Servisi
-	    cart: http://localhost:8005          # Alışveriş Sepeti Servisi
-	    payment: http://localhost:8006       # Ödeme Servisi
-	    user: http://localhost:8007          # Kullanıcı Servisi
-		invoice: http://localhost:8008       # Fatura Servisi
-	    shipment: http://localhost:8011      # Kargo Servisi
 
+  services:
+    gateway: http://localhost:8001       # Gateway Servisi
+    product: http://localhost:8002       # Ürün Servisi
+    order: http://localhost:8003         # Sipariş Servisi
+    notification: http://localhost:8004   # Bildirim Servisi
+    cart: http://localhost:8005          # Alışveriş Sepeti Servisi
+    payment: http://localhost:8006       # Ödeme Servisi
+    user: http://localhost:8007          # Kullanıcı Servisi
+    invoice: http://localhost:8008       # Fatura Servisi
+    shipment: http://localhost:8011      # Kargo Servisi
