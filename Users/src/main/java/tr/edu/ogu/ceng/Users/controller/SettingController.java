@@ -16,10 +16,9 @@ public class SettingController {
 	private final SettingService settingservice;
 
 	@GetMapping("/{id}")
-	
 	public Object getSetting(@PathVariable Long id) {
 		return settingservice.getSetting(id);
-		
-	} 
+
+	}
 
 }
