@@ -1,17 +1,19 @@
 package tr.edu.ogu.ceng.users;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import java.time.LocalDateTime;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.testcontainers.containers.PostgreSQLContainer;
 import org.testcontainers.junit.jupiter.Container;
@@ -29,10 +31,10 @@ class UsersServiceTest {
 	@Container
     public static PostgreSQLContainer<?> postgres = new PostgreSQLContainer<>(DockerImageName.parse("postgres:16-alpine"));
 	
-    @Mock
+	@Autowired
     private UsersRepository usersRepository;
 
-    @InjectMocks
+	@Autowired
     private UsersService usersService;
 
     private Users user;
@@ -44,8 +46,22 @@ class UsersServiceTest {
         user.setUsername("testuser");
         user.setPasswordHash("password");
         user.setEmail("email@example.com");
+        user.setCreatedAt(LocalDateTime.now());
+        user.setUpdatedAt(LocalDateTime.now());
+        user.setStatus("admin");
     }
+    
+    @Test
+    void SaveUserToDatabase() {
+        // Act: User nesnesini veri tabanına kaydet
+        Users savedUser = usersRepository.save(user);
 
+        // Assert: Kaydedilen kullanıcı geri dönmeli ve id otomatik olarak atanmalı
+        assertThat(savedUser).isNotNull();
+        assertThat(savedUser.getId()).isNotNull(); // id otomatik olarak atanmalı
+        assertThat(savedUser.getUsername()).isEqualTo("testuser");
+        assertThat(savedUser.getEmail()).isEqualTo("email@example.com");
+    }
     @Test
     void testCreateUser() {
         // Mock davranışı: usersRepository.save(user) çağrıldığında user döndür

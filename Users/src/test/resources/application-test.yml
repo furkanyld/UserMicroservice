@@ -1,22 +1,4 @@
-server:
-  port: 8007
 
-spring:
-  application:
-    name: Users
-
-  datasource:
-    url: jdbc:postgresql://localhost:5432/ilerijava
-    username: devuser
-    password: devpassword
-    default_schema: users_application
-
-  flyway:
-    default-schema: users_application
-
-  jpa:
-    hibernate:
-      ddl-auto: validate
 
   services:
     gateway: http://localhost:8001       # Gateway Servisi

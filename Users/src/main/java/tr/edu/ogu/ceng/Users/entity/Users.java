@@ -1,6 +1,5 @@
 package tr.edu.ogu.ceng.Users.entity;
 
-
 import java.time.LocalDateTime;
 
 import jakarta.persistence.Column;
@@ -8,6 +7,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.PrePersist;
 import jakarta.persistence.Table;
 import lombok.Data;
 
@@ -17,41 +17,54 @@ import lombok.Data;
 @Table(name = "users", schema = "users_application")
 public class Users {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long id;
 
-    @Column(nullable = false, unique = true, length = 255)
-    private String username;
+	@Column(nullable = false, unique = true, length = 255)
+	private String username;
 
-    @Column(nullable = false, unique = true, length = 255)
-    private String email;
+	@Column(nullable = false, unique = true, length = 255)
+	private String email;
 
-    @Column(nullable = false, length = 255)
-    private String passwordHash;
+	@Column(nullable = false, length = 255)
+	private String passwordHash;
 
-    @Column(nullable = false, length = 50)
-    private String status;
+	@Column(nullable = false, length = 50)
+	private String status;
 
-    @Column(nullable = false)
-    private LocalDateTime createdAt;
+	@Column(nullable = false)
+	private LocalDateTime createdAt;
 
-    @Column(nullable = false)
-    private LocalDateTime updatedAt;
-    
-    @Column(name = "created_by")
-    private String createdBy;
+	@PrePersist
+	protected void onCreateInfo() {
+		if (status == null) {
+			this.status = "ACTIVE"; 
+		}
+		this.updatedAt = LocalDateTime.now(); 
+		this.createdAt = LocalDateTime.now(); 
+		this.username = "testuser"; 
+		this.email = "email@example.com"; 
+		this.passwordHash = "password";
+	}
 
-    @Column(name = "updated_by")
-    private String updatedBy;
+	/*
+	 * @PreUpdate public void onUpdate() { this.updatedAt = LocalDateTime.now(); //
+	 * Varlık oluşturulmadan hemen önce updatedAt alanını günceller }
+	 */
+	@Column(nullable = false)
+	private LocalDateTime updatedAt;
 
-    @Column(name = "deleted_by")
-    private String deletedBy;
+	@Column(name = "created_by")
+	private String createdBy;
 
-    @Column(name = "deleted_at")
-    private LocalDateTime deletedAt;
+	@Column(name = "updated_by")
+	private String updatedBy;
 
+	@Column(name = "deleted_by")
+	private String deletedBy;
 
+	@Column(name = "deleted_at")
+	private LocalDateTime deletedAt;
 
-    
 }
