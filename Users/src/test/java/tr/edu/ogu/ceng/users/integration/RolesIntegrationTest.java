@@ -20,7 +20,7 @@ import tr.edu.ogu.ceng.Users.repository.RolesRepository;
 
 @Testcontainers
 @SpringBootTest
-public class RolesServiceTest {
+public class RolesIntegrationTest {
 
 	// PostgreSQL Container
 	@Container

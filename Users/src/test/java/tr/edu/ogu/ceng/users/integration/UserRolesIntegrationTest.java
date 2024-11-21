@@ -13,7 +13,7 @@ import tr.edu.ogu.ceng.Users.repository.UserRolesRepository;
 
 @Testcontainers
 @SpringBootTest
-public class UserRolesServiceTest {
+public class UserRolesIntegrationTest {
 
 	// PostgreSQL Container
 	@Container

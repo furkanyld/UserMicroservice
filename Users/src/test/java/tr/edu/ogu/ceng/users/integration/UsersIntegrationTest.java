@@ -26,7 +26,7 @@ import tr.edu.ogu.ceng.Users.service.UsersService;
 @Testcontainers
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @ExtendWith(MockitoExtension.class)
-class UsersServiceTest {
+class UsersIntegrationTest {
 
 	@Container
     public static PostgreSQLContainer<?> postgres = new PostgreSQLContainer<>(DockerImageName.parse("postgres:16-alpine"));

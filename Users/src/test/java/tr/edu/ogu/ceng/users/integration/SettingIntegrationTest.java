@@ -17,7 +17,7 @@ import tr.edu.ogu.ceng.Users.repository.SettingRepository;
 
 @Testcontainers
 @SpringBootTest
-public class SettingServiceTest {
+public class SettingIntegrationTest {
 
     // PostgreSQL Container
     @Container
