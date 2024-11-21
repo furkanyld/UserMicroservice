@@ -1,4 +1,4 @@
-package tr.edu.ogu.ceng.users;
+package tr.edu.ogu.ceng.users.integration;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
