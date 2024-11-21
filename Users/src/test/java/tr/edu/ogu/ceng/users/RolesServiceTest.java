@@ -2,23 +2,14 @@ package tr.edu.ogu.ceng.users;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.assertEquals;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyLong;
-import static org.mockito.Mockito.doNothing;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.DynamicPropertyRegistry;
+import org.springframework.test.context.DynamicPropertySource;
 import org.testcontainers.containers.PostgreSQLContainer;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
@@ -26,93 +17,98 @@ import org.testcontainers.utility.DockerImageName;
 
 import tr.edu.ogu.ceng.Users.entity.Roles;
 import tr.edu.ogu.ceng.Users.repository.RolesRepository;
-import tr.edu.ogu.ceng.Users.service.RolesService;
-
 
 @Testcontainers
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-@ExtendWith(MockitoExtension.class)
+@SpringBootTest
 public class RolesServiceTest {
+
+	// PostgreSQL Container
 	@Container
-    public static PostgreSQLContainer<?> postgres = new PostgreSQLContainer<>(DockerImageName.parse("postgres:16-alpine"));
+	public static PostgreSQLContainer<?> postgres = new PostgreSQLContainer<>(
+			DockerImageName.parse("postgres:16-alpine"));
 
-    @Mock
-    private RolesRepository rolesRepository;
+	// Spring Boot'un test ortamı için dinamik özellikleri ayarlıyoruz.
+	@DynamicPropertySource
+	static void configureProperties(DynamicPropertyRegistry registry) {
+		registry.add("spring.datasource.url", postgres::getJdbcUrl);
+		registry.add("spring.datasource.username", postgres::getUsername);
+		registry.add("spring.datasource.password", postgres::getPassword);
+	}
 
-    @InjectMocks
-    private RolesService rolesService;
+	@Autowired
+	private RolesRepository rolesRepository;
 
-    @Test
-    public void testCreateRole() {
-        Roles role = new Roles();
-        role.setRoleName("Admin");
+	@Test
+	public void testCreateRole() {
+		// Yeni bir Role oluştur ve kaydet
+		Roles role = new Roles();
+		role.setRoleName("Admin");
+		Roles savedRole = rolesRepository.save(role);
 
-        when(rolesRepository.save(any(Roles.class))).thenReturn(role);
+		// Doğrulamalar
+		assertThat(savedRole).isNotNull();
+		assertThat(savedRole.getId()).isNotNull(); // Otomatik ID atanmış olmalı
+		assertThat(savedRole.getRoleName()).isEqualTo("Admin");
+	}
 
-        Roles savedRole = rolesService.createRole(role);
+	@Test
+	public void testUpdateRole() {
+		// Önce bir Role kaydet
+		Roles role = new Roles();
+		role.setRoleName("User");
+		Roles savedRole = rolesRepository.save(role);
 
-        assertThat(savedRole).isNotNull();
-        assertThat(savedRole.getRoleName()).isEqualTo("Admin");
-        verify(rolesRepository, times(1)).save(role);
-    }
+		// Role'ü güncelle
+		savedRole.setRoleName("SuperUser");
+		Roles updatedRole = rolesRepository.save(savedRole);
 
-    @Test
-    public void testUpdateRole() {
-        Roles role = new Roles();
-        role.setId(1L);
-        role.setRoleName("User");
+		// Doğrulamalar
+		assertThat(updatedRole).isNotNull();
+		assertThat(updatedRole.getRoleName()).isEqualTo("SuperUser");
+	}
 
-        when(rolesRepository.save(any(Roles.class))).thenReturn(role);
+	@Test
+	public void testGetAllRoles() {
+		// Bazı roller ekle
+		Roles role1 = new Roles();
+		role1.setRoleName("Role1");
+		Roles role2 = new Roles();
+		role2.setRoleName("Role2");
 
-        Roles updatedRole = rolesService.updateRole(role);
+		rolesRepository.save(role1);
+		rolesRepository.save(role2);
 
-        assertThat(updatedRole).isNotNull();
-        assertThat(updatedRole.getRoleName()).isEqualTo("User");
-        verify(rolesRepository, times(1)).save(role);
-    }
+		// Tüm roller al ve doğrula
+		List<Roles> rolesList = rolesRepository.findAll();
+		assertThat(rolesList).isNotEmpty();
+		assertEquals(2, rolesList.size());
+	}
 
-    @Test
-    void testGetAllRoles() {
-        // Mock verisi
-        List<Roles> rolesList = new ArrayList<>();
-        rolesList.add(new Roles()); // 1. rol
-        rolesList.add(new Roles()); // 2. rol
+	@Test
+	public void testGetRoleById() {
+		// Bir Role ekle ve ID'yi al
+		Roles role = new Roles();
+		role.setRoleName("Admin");
+		Roles savedRole = rolesRepository.save(role);
 
-        // Mock davranışı: rolesRepository.findAll() çağrıldığında rolesList döndür
-        when(rolesRepository.findAll()).thenReturn(rolesList);
+		// ID ile role al ve doğrula
+		Roles foundRole = rolesRepository.findById(savedRole.getId()).orElse(null);
+		assertThat(foundRole).isNotNull();
+		assertThat(foundRole.getRoleName()).isEqualTo("Admin");
+	}
 
-        // Metodu çağırın
-        List<Roles> allRoles = rolesService.getAllRoles();
+	@Test
+	public void testDeleteRole() {
+		// Bir Role ekle
+		Roles role = new Roles();
+		role.setRoleName("Admin");
+		Roles savedRole = rolesRepository.save(role);
 
-        // Sonucun boyutunu kontrol edin
-        assertEquals(2, allRoles.size()); // Beklenen boyut
-        verify(rolesRepository, times(1)).findAll(); // Methodun bir kez çağrıldığını doğrula
-    }
+		// Role'ü sil
+		rolesRepository.deleteById(savedRole.getId());
 
-
-    @Test
-    public void testGetRoleById() {
-        Roles role = new Roles();
-        role.setId(1L);
-        role.setRoleName("Admin");
-
-        when(rolesRepository.findById(anyLong())).thenReturn(Optional.of(role));
-
-        Roles foundRole = rolesService.getRoleById(1L);
-
-        assertThat(foundRole).isNotNull();
-        assertThat(foundRole.getRoleName()).isEqualTo("Admin");
-        verify(rolesRepository, times(1)).findById(1L);
-    }
-
-    @Test
-    public void testDeleteRole() {
-        Long roleId = 1L;
-
-        doNothing().when(rolesRepository).deleteById(roleId);
-
-        rolesService.deleteRole(roleId);
-
-        verify(rolesRepository, times(1)).deleteById(roleId);
-    }
+		// Doğrula: Role artık mevcut olmamalı
+		boolean exists = rolesRepository.existsById(savedRole.getId());
+		assertThat(exists).isFalse();
+	}
 }

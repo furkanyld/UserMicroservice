@@ -32,15 +32,15 @@ public class UserRoles {
 
     @Column(nullable = false)
     private LocalDateTime assignedAt;
-    
+
     @Column(nullable = false)
     private LocalDateTime updatedAt;
-    
+
     @Column(name = "created_by")
     private String createdBy;
 
     @Column(name = "created_at", nullable = false)
-    private LocalDateTime createdAt = LocalDateTime.now();
+    private LocalDateTime createdAt = LocalDateTime.now();  // Default olarak şu anki zaman
 
     @Column(name = "updated_by")
     private String updatedBy;
@@ -51,4 +51,5 @@ public class UserRoles {
     @Column(name = "deleted_at")
     private LocalDateTime deletedAt;
 
+    // Constructor, Getter ve Setter'lar Lombok tarafından sağlanacaktır.
 }
