@@ -10,6 +10,6 @@ import tr.edu.ogu.ceng.User.entity.Setting;
 @Repository
 public interface SettingRepository extends JpaRepository<Setting,Long> {
 	
-	Optional<Setting> findByName(String name);
+	Optional<Setting> findById(Long id);
 	
 }

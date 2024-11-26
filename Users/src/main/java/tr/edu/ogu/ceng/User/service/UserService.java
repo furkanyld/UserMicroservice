@@ -13,44 +13,44 @@ import tr.edu.ogu.ceng.User.repository.UserRepository;
 @Service
 public class UserService {
 
-	private final UserRepository userrepository;
+	private final UserRepository userRepository;
 
 	public User createUser(User user) {
-		return userrepository.save(user); // Yeni kullanıcıyı kaydet
+		return userRepository.save(user); // Yeni kullanıcıyı kaydet
 	}
 
 	public User updateUser(User user) {
-		return userrepository.save(user); // Var olan kullanıcıyı güncelle
+		return userRepository.save(user); // Var olan kullanıcıyı güncelle
 	}
 
 	public Optional<User> getByUsername(String username) {
-        return userrepository.getByUsername(username);
+        return userRepository.getByUsername(username);
             
     }
 	public Optional<User> getByEmail(String email) {
-	    return userrepository.findByEmail(email);
+	    return userRepository.findByEmail(email);
 	}
 
 	public void deleteUserById(Long id) {
-	    userrepository.deleteById(id);
+		userRepository.deleteById(id);
 	}
 	
 	public List<User> getAllUsers() {
-	    return userrepository.findAll();
+	    return userRepository.findAll();
 	}
 
 	public User changeUserStatus(Long id, String newStatus) {
-	    User user = userrepository.findById(id)
+	    User user = userRepository.findById(id)
 	        .orElseThrow(() -> new IllegalArgumentException("User not found"));
 	    user.setStatus(newStatus);
-	    return userrepository.save(user);
+	    return userRepository.save(user);
 	}
 
 	public User updateUserPassword(Long id, String newPasswordHash) {
-	    User user = userrepository.findById(id)
+	    User user = userRepository.findById(id)
 	        .orElseThrow(() -> new IllegalArgumentException("User not found"));
 	    user.setPasswordHash(newPasswordHash);
-	    return userrepository.save(user);
+	    return userRepository.save(user);
 	}
 
 

@@ -1,11 +1,14 @@
 package tr.edu.ogu.ceng.user.service;
 
+import static org.junit.Assert.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
@@ -33,6 +36,7 @@ class UserServiceTest {
 	void testCreateUser() {
 
 		User newUser = new User();
+		newUser.setId(1L);
 		newUser.setUsername("testUser");
 		newUser.setEmail("test@example.com");
 
@@ -40,6 +44,7 @@ class UserServiceTest {
 
 		User result = userservice.createUser(newUser);
 
+		assertNotNull(result);
 		assertEquals("testUser", result.getUsername());
 		assertEquals("test@example.com", result.getEmail());
 	}
