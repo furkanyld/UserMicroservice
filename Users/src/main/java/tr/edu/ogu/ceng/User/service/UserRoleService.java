@@ -15,27 +15,27 @@ public class UserRoleService {
 
 	private final UserRoleRepository userrolesrepository;
 
-	// Yeni bir kullanıcı rolü oluşturma
+	
 	@Transactional
 	public UserRole createUserRoles(UserRole userRole) {
-		return userrolesrepository.save(userRole); // Yeni kullanıcı rolünü kaydet
+		return userrolesrepository.save(userRole); 
 	}
 
-	// Var olan bir kullanıcı rolünü güncelleme
+	
 	@Transactional
 	public UserRole updateUserRoles(UserRole userRole) {
-		return userrolesrepository.save(userRole); // Var olan kullanıcı rolünü güncelle
+		return userrolesrepository.save(userRole); 
 	}
 
-	// Tüm kullanıcı rollerini listeleme
+	
 	public List<UserRole> getAllUserRoles() {
-		return userrolesrepository.findAll(); // Tüm kullanıcı rollerini döndür
+		return userrolesrepository.findAll(); 
 	}
 
-	// Kullanıcı rolünü silme
+	
 	@Transactional
 	public void deleteUserRole(Long id) {
-		userrolesrepository.deleteById(id); // Kullanıcı rolünü sil
+		userrolesrepository.deleteById(id); 
 	}
 
 }

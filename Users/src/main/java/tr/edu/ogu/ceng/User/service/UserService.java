@@ -1,5 +1,6 @@
 package tr.edu.ogu.ceng.User.service;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.stereotype.Service;
@@ -26,8 +27,32 @@ public class UserService {
         return userrepository.getByUsername(username);
             
     }
+	public Optional<User> getByEmail(String email) {
+	    return userrepository.findByEmail(email);
+	}
+
+	public void deleteUserById(Long id) {
+	    userrepository.deleteById(id);
+	}
 	
-	
+	public List<User> getAllUsers() {
+	    return userrepository.findAll();
+	}
+
+	public User changeUserStatus(Long id, String newStatus) {
+	    User user = userrepository.findById(id)
+	        .orElseThrow(() -> new IllegalArgumentException("User not found"));
+	    user.setStatus(newStatus);
+	    return userrepository.save(user);
+	}
+
+	public User updateUserPassword(Long id, String newPasswordHash) {
+	    User user = userrepository.findById(id)
+	        .orElseThrow(() -> new IllegalArgumentException("User not found"));
+	    user.setPasswordHash(newPasswordHash);
+	    return userrepository.save(user);
+	}
+
 
 
 }

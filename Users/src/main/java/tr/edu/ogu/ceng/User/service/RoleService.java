@@ -22,21 +22,21 @@ public class RoleService {
 	@Transactional
 	public Role createRole(Role role) {
 		role.setCreatedAt(LocalDateTime.now());
-        role.setUpdatedAt(LocalDateTime.now());
-        role.setCreatedBy("system");  // Gelecekte, kimlik doğrulama kullanılırsa güncellenebilir
-        return rolesRepository.save(role);
+		role.setUpdatedAt(LocalDateTime.now());
+		role.setCreatedBy("system"); // Gelecekte, kimlik doğrulama kullanılırsa güncellenebilir
+		return rolesRepository.save(role);
 	}
 
 	// Var olan bir rolü güncelleme
 	@Transactional
 	public Role updateRole(Long id, Role updatedRole) {
 		return rolesRepository.findById(id).map(role -> {
-            role.setRoleName(updatedRole.getRoleName());
-            role.setDescription(updatedRole.getDescription());
-            role.setUpdatedBy("system");
-            role.setUpdatedAt(LocalDateTime.now());
-            return rolesRepository.save(role);
-        }).orElseThrow(() -> new RuntimeException("Role not found"));
+			role.setRoleName(updatedRole.getRoleName());
+			role.setDescription(updatedRole.getDescription());
+			role.setUpdatedBy("system");
+			role.setUpdatedAt(LocalDateTime.now());
+			return rolesRepository.save(role);
+		}).orElseThrow(() -> new RuntimeException("Role not found"));
 	}
 
 	// Tüm rolleri listeleme
@@ -54,13 +54,13 @@ public class RoleService {
 	public void hardDeleteRole(Long id) {
 		rolesRepository.deleteById(id); // Rolü sil
 	}
-	
+
 	@Transactional
-    public void softDeleteRole(Long id) {
-        rolesRepository.findById(id).ifPresent(role -> {
-            role.setDeletedAt(LocalDateTime.now());
-            role.setDeletedBy("system");
-            rolesRepository.save(role);
-        });
-    }
+	public void softDeleteRole(Long id) {
+		rolesRepository.findById(id).ifPresent(role -> {
+			role.setDeletedAt(LocalDateTime.now());
+			role.setDeletedBy("system");
+			rolesRepository.save(role);
+		});
+	}
 }
