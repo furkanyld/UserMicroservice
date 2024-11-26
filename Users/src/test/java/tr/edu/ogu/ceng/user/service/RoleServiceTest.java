@@ -88,18 +88,21 @@ class RoleServiceTest {
 	}
 
 	@Test
-	void testGetRoleById() {
-		Role role = new Role();
-		role.setId(1L);
-		role.setRoleName("Admin");
+	void testFindByRoleName() {
+	    Role role = new Role();
+	    role.setId(1L);
+	    role.setRoleName("Admin");
 
-		when(rolesRepository.findById(1L)).thenReturn(Optional.of(role));
+	    // Mock davranışını ayarla
+	    when(rolesRepository.findByRoleName("Admin")).thenReturn(Optional.of(role));
 
-		Role foundRole = rolesService.getRoleById(1L);
+	    // Servis metodunu çağır
+	    Role foundRole = rolesService.findByRoleName("Admin");
 
-		assertNotNull(foundRole); // Verify the object is not null
-		assertEquals("Admin", foundRole.getRoleName()); // Verify the role name matches
-		verify(rolesRepository, times(1)).findById(1L); // Ensure repository method is called once
+	    // Doğrulamalar
+	    assertNotNull(foundRole);
+	    assertEquals("Admin", foundRole.getRoleName());
+	    verify(rolesRepository, times(1)).findByRoleName("Admin"); // Repository'nin çağrıldığını doğrula
 	}
 
 	@Test

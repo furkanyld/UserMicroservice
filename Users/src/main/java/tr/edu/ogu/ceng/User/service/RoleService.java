@@ -48,6 +48,12 @@ public class RoleService {
 	public Role getRoleById(Long id) {
 		return rolesRepository.findById(id).orElse(null); // ID ile rolü bul
 	}
+	
+    // Role'ü isme göre bulma metodu
+    public Role findByRoleName(String name) {
+        return rolesRepository.findByRoleName(name)
+                .orElseThrow(() -> new RuntimeException("Role not found: " + name));
+    }
 
 	// Rolü silme
 	@Transactional
