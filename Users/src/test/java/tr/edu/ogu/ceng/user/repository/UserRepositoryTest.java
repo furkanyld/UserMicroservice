@@ -13,7 +13,7 @@ import tr.edu.ogu.ceng.User.entity.User;
 import tr.edu.ogu.ceng.User.repository.UserRepository;
 
 @SpringBootTest
-public class UserTestRepository {
+public class UserRepositoryTest {
 
 	@Container
 	public static PostgreSQLContainer<?> postgres = new PostgreSQLContainer<>(
