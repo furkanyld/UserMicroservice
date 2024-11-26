@@ -33,11 +33,6 @@ class RoleServiceTest {
     @Autowired
     private RoleService rolesService;
 
-    @BeforeEach
-    void setUp() {
-        MockitoAnnotations.openMocks(this);
-    }
-
     @Test
     void testCreateRole() {
         Role role = new Role();
@@ -55,17 +50,24 @@ class RoleServiceTest {
 
     @Test
     void testUpdateRole() {
-        Role role = new Role();
-        role.setId(1L);
-        role.setRoleName("User");
+        Role existingRole = new Role();
+        existingRole.setId(1L);
+        existingRole.setRoleName("User");
+        existingRole.setDescription("User role");
 
-        when(rolesRepository.save(role)).thenReturn(role);
+        Role updatedRole = new Role();
+        updatedRole.setRoleName("Moderator");
+        updatedRole.setDescription("Moderator role");
 
-        Role updatedRole = rolesService.updateRole(role);
+        when(rolesRepository.findById(1L)).thenReturn(Optional.of(existingRole));
+        when(rolesRepository.save(existingRole)).thenReturn(updatedRole);
 
-        assertNotNull(updatedRole);
-        assertEquals("User", updatedRole.getRoleName());
-        verify(rolesRepository, times(1)).save(role);
+        Role result = rolesService.updateRole(1L, updatedRole);
+
+        assertNotNull(result);
+        assertEquals("Moderator", result.getRoleName());
+        assertEquals("Moderator role", result.getDescription());
+        verify(rolesRepository, times(1)).save(existingRole);
     }
 
     @Test
@@ -113,13 +115,29 @@ class RoleServiceTest {
     }
 
     @Test
-    void testDeleteRole() {
+    void testHardDeleteRole() {
         Long roleId = 1L;
 
         doNothing().when(rolesRepository).deleteById(roleId);
 
-        rolesService.deleteRole(roleId);
+        rolesService.hardDeleteRole(roleId);
 
         verify(rolesRepository, times(1)).deleteById(roleId); // Ensure repository method is called once
+    }
+    
+    @Test
+    void testSoftDeleteRole() {
+        Role role = new Role();
+        role.setId(1L);
+        role.setRoleName("Admin");
+
+        when(rolesRepository.findById(1L)).thenReturn(Optional.of(role));
+        when(rolesRepository.save(role)).thenReturn(role);
+
+        rolesService.softDeleteRole(1L);
+
+        assertNotNull(role.getDeletedAt());
+        assertEquals("system", role.getDeletedBy());
+        verify(rolesRepository, times(1)).save(role);
     }
 }
