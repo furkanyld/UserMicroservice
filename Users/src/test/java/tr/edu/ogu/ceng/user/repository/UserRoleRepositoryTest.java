@@ -59,10 +59,17 @@ public class UserRoleRepositoryTest {
         User user = new User();
         user.setUsername("testuser");
         user.setEmail("testuser@example.com");
+        user.setPasswordHash("passwordHash");
+		user.setStatus("active");
+		user.setCreatedAt(LocalDateTime.now());
+		user.setUpdatedAt(LocalDateTime.now());
         User savedUser = userRepository.save(user);
 
         Role role = new Role();
         role.setRoleName("ADMIN");
+        role.setDescription("Administration role");
+        role.setCreatedAt(LocalDateTime.now());
+        role.setUpdatedAt(LocalDateTime.now());
         role.setDescription("Administration role");
         Role savedRole = roleRepository.save(role);
 
@@ -86,11 +93,17 @@ public class UserRoleRepositoryTest {
         User user = new User();
         user.setUsername("testuser");
         user.setEmail("testuser@example.com");
+        user.setPasswordHash("passwordHash");
+		user.setStatus("active");
+		user.setCreatedAt(LocalDateTime.now());
+		user.setUpdatedAt(LocalDateTime.now());
         User savedUser = userRepository.save(user);
 
         Role role = new Role();
         role.setRoleName("USER");
         role.setDescription("User role");
+        role.setCreatedAt(LocalDateTime.now());
+        role.setUpdatedAt(LocalDateTime.now());
         Role savedRole = roleRepository.save(role);
 
         UserRole userRole = new UserRole();
@@ -114,11 +127,17 @@ public class UserRoleRepositoryTest {
         User user = new User();
         user.setUsername("testuser");
         user.setEmail("testuser@example.com");
+        user.setPasswordHash("passwordHash");
+		user.setStatus("active");
+		user.setCreatedAt(LocalDateTime.now());
+		user.setUpdatedAt(LocalDateTime.now());
         User savedUser = userRepository.save(user);
 
         Role role = new Role();
         role.setRoleName("USER");
         role.setDescription("User role");
+        role.setCreatedAt(LocalDateTime.now());
+        role.setUpdatedAt(LocalDateTime.now());
         Role savedRole = roleRepository.save(role);
 
         UserRole userRole = new UserRole();
@@ -145,11 +164,17 @@ public class UserRoleRepositoryTest {
         User user = new User();
         user.setUsername("testuser");
         user.setEmail("testuser@example.com");
+        user.setPasswordHash("passwordHash");
+		user.setStatus("active");
+		user.setCreatedAt(LocalDateTime.now());
+		user.setUpdatedAt(LocalDateTime.now());
         User savedUser = userRepository.save(user);
 
         Role role = new Role();
         role.setRoleName("MODERATOR");
         role.setDescription("Moderator role");
+        role.setCreatedAt(LocalDateTime.now());
+        role.setUpdatedAt(LocalDateTime.now());
         Role savedRole = roleRepository.save(role);
 
         UserRole userRole = new UserRole();
@@ -174,11 +199,17 @@ public class UserRoleRepositoryTest {
         User user1 = new User();
         user1.setUsername("user1");
         user1.setEmail("user1@example.com");
+        user1.setPasswordHash("passwordHash");
+		user1.setStatus("active");
+		user1.setCreatedAt(LocalDateTime.now());
+		user1.setUpdatedAt(LocalDateTime.now());
         User savedUser1 = userRepository.save(user1);
 
         Role role1 = new Role();
         role1.setRoleName("ADMIN");
         role1.setDescription("Admin role");
+        role1.setCreatedAt(LocalDateTime.now());
+        role1.setUpdatedAt(LocalDateTime.now());
         Role savedRole1 = roleRepository.save(role1);
 
         UserRole userRole1 = new UserRole();

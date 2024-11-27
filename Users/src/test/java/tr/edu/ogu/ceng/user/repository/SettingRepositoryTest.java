@@ -8,11 +8,12 @@ import java.util.Optional;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.boot.test.context.SpringBootTest;
 
 import tr.edu.ogu.ceng.User.entity.Setting;
 import tr.edu.ogu.ceng.User.repository.SettingRepository;
 
-@DataJpaTest
+@SpringBootTest
 public class SettingRepositoryTest {
 
     @Autowired
@@ -26,6 +27,8 @@ public class SettingRepositoryTest {
         setting.setValue("dark");
         setting.setCreatedBy("admin");
         setting.setCreatedAt(LocalDateTime.now());
+		setting.setUpdatedAt(LocalDateTime.now());
+
 
         // Act
         Setting savedSetting = settingRepository.save(setting);
@@ -47,6 +50,7 @@ public class SettingRepositoryTest {
         setting.setValue("en");
         setting.setCreatedBy("admin");
         setting.setCreatedAt(LocalDateTime.now());
+		setting.setUpdatedAt(LocalDateTime.now());
         Setting savedSetting = settingRepository.save(setting);
 
         // Act
@@ -70,6 +74,8 @@ public class SettingRepositoryTest {
         setting.setValue("UTC");
         setting.setCreatedBy("admin");
         setting.setCreatedAt(LocalDateTime.now());
+		setting.setUpdatedAt(LocalDateTime.now());
+
         Setting savedSetting = settingRepository.save(setting);
 
         // Act
@@ -90,6 +96,8 @@ public class SettingRepositoryTest {
         setting.setValue("enabled");
         setting.setCreatedBy("admin");
         setting.setCreatedAt(LocalDateTime.now());
+		setting.setUpdatedAt(LocalDateTime.now());
+
         Setting savedSetting = settingRepository.save(setting);
 
         // Act
