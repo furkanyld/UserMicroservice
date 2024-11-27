@@ -3,12 +3,10 @@ package tr.edu.ogu.ceng.user.service;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
@@ -18,7 +16,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 
-import tr.edu.ogu.ceng.User.UserApplication;
 import tr.edu.ogu.ceng.User.entity.User;
 import tr.edu.ogu.ceng.User.repository.UserRepository;
 import tr.edu.ogu.ceng.User.service.UserService;

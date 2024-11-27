@@ -18,38 +18,38 @@ import lombok.Data;
 @Table(name = "user_roles", schema = "users_application")
 public class UserRole {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id", nullable = false)
-    private User user;
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "user_id", nullable = false)
+	private User user;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "role_id", nullable = false)
-    private Role role;
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "role_id", nullable = false)
+	private Role role;
 
-    @Column(nullable = false)
-    private LocalDateTime assignedAt;
+	@Column(nullable = false)
+	private LocalDateTime assignedAt;
 
-    @Column(nullable = false)
-    private LocalDateTime updatedAt;
+	@Column(nullable = false)
+	private LocalDateTime updatedAt;
 
-    @Column(name = "created_by")
-    private String createdBy;
+	@Column(name = "created_by")
+	private String createdBy;
 
-    @Column(name = "created_at", nullable = false)
-    private LocalDateTime createdAt = LocalDateTime.now();  // Default olarak şu anki zaman
+	@Column(name = "created_at", nullable = false)
+	private LocalDateTime createdAt = LocalDateTime.now(); // Default olarak şu anki zaman
 
-    @Column(name = "updated_by")
-    private String updatedBy;
+	@Column(name = "updated_by")
+	private String updatedBy;
 
-    @Column(name = "deleted_by")
-    private String deletedBy;
+	@Column(name = "deleted_by")
+	private String deletedBy;
 
-    @Column(name = "deleted_at")
-    private LocalDateTime deletedAt;
+	@Column(name = "deleted_at")
+	private LocalDateTime deletedAt;
 
-    // Constructor, Getter ve Setter'lar Lombok tarafından sağlanacaktır.
+	// Constructor, Getter ve Setter'lar Lombok tarafından sağlanacaktır.
 }

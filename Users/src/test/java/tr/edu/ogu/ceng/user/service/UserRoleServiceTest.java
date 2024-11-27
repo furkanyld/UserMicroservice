@@ -16,7 +16,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 
-import tr.edu.ogu.ceng.User.UserApplication;
 import tr.edu.ogu.ceng.User.entity.Role;
 import tr.edu.ogu.ceng.User.entity.User;
 import tr.edu.ogu.ceng.User.entity.UserRole;

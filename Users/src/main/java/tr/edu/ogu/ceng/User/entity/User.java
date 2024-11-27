@@ -39,13 +39,13 @@ public class User {
 	private LocalDateTime updatedAt;
 
 	@Column(name = "created_by")
-	private String createdBy;
+	private LocalDateTime createdBy;
 
 	@Column(name = "updated_by")
-	private String updatedBy;
+	private LocalDateTime updatedBy;
 
 	@Column(name = "deleted_by")
-	private String deletedBy;
+	private LocalDateTime deletedBy;
 
 	@Column(name = "deleted_at")
 	private LocalDateTime deletedAt;
