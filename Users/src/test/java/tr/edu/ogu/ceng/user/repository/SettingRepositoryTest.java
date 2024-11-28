@@ -10,11 +10,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import common.Parent;
 import tr.edu.ogu.ceng.User.entity.Setting;
 import tr.edu.ogu.ceng.User.repository.SettingRepository;
 
 @SpringBootTest
-public class SettingRepositoryTest {
+public class SettingRepositoryTest extends Parent {
 
     @Autowired
     private SettingRepository settingRepository;

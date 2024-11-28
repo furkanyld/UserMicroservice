@@ -16,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 
+import common.Parent;
 import tr.edu.ogu.ceng.User.entity.Role;
 import tr.edu.ogu.ceng.User.entity.User;
 import tr.edu.ogu.ceng.User.entity.UserRole;
@@ -23,7 +24,7 @@ import tr.edu.ogu.ceng.User.repository.UserRoleRepository;
 import tr.edu.ogu.ceng.User.service.UserRoleService;
 
 @SpringBootTest
-class UserRoleServiceTest {
+class UserRoleServiceTest extends Parent {
 
 	@MockBean
 	private UserRoleRepository userRolesRepository;

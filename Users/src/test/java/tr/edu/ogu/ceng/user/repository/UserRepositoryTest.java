@@ -19,33 +19,14 @@ import org.testcontainers.containers.PostgreSQLContainer;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.utility.DockerImageName;
 
+import common.Parent;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import tr.edu.ogu.ceng.User.entity.User;
 import tr.edu.ogu.ceng.User.repository.UserRepository;
 
 @SpringBootTest
-public class UserRepositoryTest {
-
-	@Container
-	public static PostgreSQLContainer<?> postgres = new PostgreSQLContainer<>(
-			DockerImageName.parse("postgres:16-alpine"));
-
-	static {
-
-		postgres.start();
-	}
-
-	@DynamicPropertySource
-	static void configureProperties(DynamicPropertyRegistry registry) {
-
-		registry.add("spring.datasource.url", postgres::getJdbcUrl);
-
-		registry.add("spring.datasource.username", postgres::getUsername);
-
-		registry.add("spring.datasource.password", postgres::getPassword);
-
-	}
+public class UserRepositoryTest extends Parent {
 
 	@Autowired
 	private UserRepository repository;

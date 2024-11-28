@@ -16,12 +16,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 
+import common.Parent;
 import tr.edu.ogu.ceng.User.entity.User;
 import tr.edu.ogu.ceng.User.repository.UserRepository;
 import tr.edu.ogu.ceng.User.service.UserService;
 
 @SpringBootTest
-class UserServiceTest {
+class UserServiceTest extends Parent{
 
 	@MockBean
 	private UserRepository userRepository;
