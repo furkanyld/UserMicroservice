@@ -24,8 +24,14 @@ public class UserController {
 				.orElseThrow(() -> new RuntimeException("User not found for name: " + username));
 
 		UserDTO userDTO = new UserDTO();
-		userDTO.setUsername("melih");
+		userDTO.setId(user.getId());
+		userDTO.setUsername(user.getUsername());
+		userDTO.setFirstname(user.getFirstname());
+		userDTO.setLastname(user.getLastname());
+		userDTO.setEmail(user.getEmail());
+		userDTO.setPasswordHash(user.getPasswordHash());
 
 		return ResponseEntity.ok(userDTO);
 	}
+
 }

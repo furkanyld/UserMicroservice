@@ -22,7 +22,13 @@ public class User {
 
 	@Column(nullable = false, unique = true, length = 255)
 	private String username;
-
+	
+	@Column(nullable = false, unique = true, length = 255)
+	private String firstname;
+	
+	@Column(nullable = false, unique = true, length = 255)
+	private String lastname;
+	
 	@Column(nullable = false, unique = true, length = 255)
 	private String email;
 
