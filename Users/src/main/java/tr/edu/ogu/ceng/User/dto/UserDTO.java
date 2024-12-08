@@ -4,10 +4,10 @@ import lombok.Data;
 
 @Data
 public class UserDTO {
-	Long id;
-	String username;
-	String firstname;
-	String lastname;
-	String email;
-	String passwordHash;
+	private Long id;
+	private String username;
+	private String firstname;
+	private String lastname;
+	private String email;
+	private String passwordHash;
 }

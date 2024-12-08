@@ -1,5 +1,6 @@
 package tr.edu.ogu.ceng.User.entity;
 
+import org.modelmapper.ModelMapper;
 import java.time.LocalDateTime;
 
 import jakarta.persistence.Column;
@@ -11,7 +12,6 @@ import jakarta.persistence.Table;
 import lombok.Data;
 
 @Entity
-
 @Data
 @Table(name = "users", schema = "users_application")
 public class User {
@@ -22,13 +22,13 @@ public class User {
 
 	@Column(nullable = false, unique = true, length = 255)
 	private String username;
-	
+
 	@Column(nullable = false, unique = true, length = 255)
 	private String firstname;
-	
+
 	@Column(nullable = false, unique = true, length = 255)
 	private String lastname;
-	
+
 	@Column(nullable = false, unique = true, length = 255)
 	private String email;
 
@@ -40,7 +40,7 @@ public class User {
 
 	@Column(nullable = false)
 	private LocalDateTime createdAt;
-	
+
 	@Column(nullable = false)
 	private LocalDateTime updatedAt;
 

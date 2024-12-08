@@ -57,7 +57,7 @@ class UserServiceTest extends Parent{
 
 		when(userRepository.save(existingUser)).thenReturn(existingUser);
 
-		User result = userservice.updateUser(existingUser);
+		User result = userservice.updateUser(existingUser.getId(), existingUser);
 
 		assertEquals(1L, result.getId());
 		assertEquals("updatedUser", result.getUsername());

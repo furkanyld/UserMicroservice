@@ -1,5 +1,6 @@
 package tr.edu.ogu.ceng.User.service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -27,15 +28,34 @@ public class UserService {
 		return userRepository.save(user); // Yeni kullanıcıyı kaydet
 	}
 
-	public User updateUser(User user) {
+	public User updateUser(Long id, User updatedUser) {
+		// Kullanıcıyı Optional ile alıyoruz
+	    Optional<User> existingUserOpt = userRepository.findById(id);
+	    
+	    // Eğer kullanıcı varsa, onu güncelle
+	    if (existingUserOpt.isPresent()) {
+	        User existingUser = existingUserOpt.get();  // Optional'dan kullanıcıyı alıyoruz
+	        existingUser.setUsername(updatedUser.getUsername());
+	        existingUser.setEmail(updatedUser.getEmail());
+	        existingUser.setPasswordHash(updatedUser.getPasswordHash());
+	        existingUser.setUpdatedAt(LocalDateTime.now());
+	        existingUser.setUpdatedBy("system"); // Gelecekte kimlik doğrulama eklenebilir
 
-		return userRepository.save(user);
-
+	        // Güncellenmiş kullanıcıyı kaydet
+	        return userRepository.save(existingUser);
+	    } else {
+	        // Kullanıcı bulunamazsa, hata fırlatıyoruz
+	        throw new RuntimeException("User not found with ID: " + id);
+	    }
 	}
 
 	public Optional<User> getByUsername(String username) {
 		return userRepository.getByUsername(username);
 
+	}
+	
+	public Optional<User> getUserById(Long id){
+		return userRepository.findById(id);
 	}
 
 	public Optional<User> getByEmail(String email) {

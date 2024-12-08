@@ -13,11 +13,13 @@ import java.util.List;
 import java.util.Optional;
 
 import org.junit.jupiter.api.Test;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 
 import common.Parent;
+import tr.edu.ogu.ceng.User.dto.RoleDTO;
 import tr.edu.ogu.ceng.User.entity.Role;
 import tr.edu.ogu.ceng.User.repository.RoleRepository;
 import tr.edu.ogu.ceng.User.service.RoleService;
@@ -30,6 +32,9 @@ class RoleServiceTest extends Parent{
 
 	@Autowired
 	private RoleService rolesService;
+	
+	@Autowired
+	private ModelMapper modelMapper;
 
 	@Test
 	void testCreateRole() {
@@ -39,10 +44,10 @@ class RoleServiceTest extends Parent{
 
 		when(rolesRepository.save(role)).thenReturn(role);
 
-		Role createdRole = rolesService.createRole(role);
+		RoleDTO createdRoleDTO = rolesService.createRole(modelMapper.map(role, RoleDTO.class));
 
-		assertNotNull(createdRole);
-		assertEquals("Admin", createdRole.getRoleName());
+		assertNotNull(createdRoleDTO);
+		assertEquals("Admin", createdRoleDTO.getRoleName());
 		verify(rolesRepository, times(1)).save(role);
 	}
 
@@ -60,11 +65,11 @@ class RoleServiceTest extends Parent{
 		when(rolesRepository.findById(1L)).thenReturn(Optional.of(existingRole));
 		when(rolesRepository.save(existingRole)).thenReturn(updatedRole);
 
-		Role result = rolesService.updateRole(1L, updatedRole);
+		RoleDTO resultDTO = rolesService.updateRole(1L, modelMapper.map(updatedRole, RoleDTO.class));
 
-		assertNotNull(result);
-		assertEquals("Moderator", result.getRoleName());
-		assertEquals("Moderator role", result.getDescription());
+		assertNotNull(resultDTO);
+		assertEquals("Moderator", resultDTO.getRoleName());
+		assertEquals("Moderator role", resultDTO.getDescription());
 		verify(rolesRepository, times(1)).save(existingRole);
 	}
 
@@ -80,10 +85,10 @@ class RoleServiceTest extends Parent{
 
 		when(rolesRepository.findAll()).thenReturn(Arrays.asList(role1, role2));
 
-		List<Role> roles = rolesService.getAllRoles();
+		List<RoleDTO> rolesDTO = rolesService.getAllRoles();
 
-		assertNotNull(roles); // Verify the list is not null
-		assertEquals(2, roles.size()); // Verify the size of the list
+		assertNotNull(rolesDTO); // Verify the list is not null
+		assertEquals(2, rolesDTO.size()); // Verify the size of the list
 		verify(rolesRepository, times(1)).findAll(); // Ensure repository method is called once
 	}
 
@@ -97,11 +102,11 @@ class RoleServiceTest extends Parent{
 	    when(rolesRepository.findByRoleName("Admin")).thenReturn(Optional.of(role));
 
 	    // Servis metodunu çağır
-	    Role foundRole = rolesService.findByRoleName("Admin");
+	    RoleDTO foundRoleDTO = rolesService.findByRoleName("Admin");
 
 	    // Doğrulamalar
-	    assertNotNull(foundRole);
-	    assertEquals("Admin", foundRole.getRoleName());
+	    assertNotNull(foundRoleDTO);
+	    assertEquals("Admin", foundRoleDTO.getRoleName());
 	    verify(rolesRepository, times(1)).findByRoleName("Admin"); // Repository'nin çağrıldığını doğrula
 	}
 
@@ -109,9 +114,9 @@ class RoleServiceTest extends Parent{
 	void testGetRoleById_NotFound() {
 		when(rolesRepository.findById(1L)).thenReturn(Optional.empty());
 
-		Role foundRole = rolesService.getRoleById(1L);
+		RoleDTO foundRoleDTO = rolesService.getRoleById(1L);
 
-		assertNull(foundRole); // Verify the result is null
+		assertNull(foundRoleDTO); // Verify the result is null
 		verify(rolesRepository, times(1)).findById(1L); // Ensure repository method is called once
 	}
 

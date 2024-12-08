@@ -2,12 +2,15 @@ package tr.edu.ogu.ceng.User.service;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.hibernate.service.JavaServiceLoadable;
+import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import tr.edu.ogu.ceng.User.dto.RoleDTO;
 import tr.edu.ogu.ceng.User.entity.Role;
 import tr.edu.ogu.ceng.User.repository.RoleRepository;
 
@@ -16,57 +19,68 @@ import tr.edu.ogu.ceng.User.repository.RoleRepository;
 @Service
 public class RoleService {
 
-	private final RoleRepository rolesRepository;
+	private final RoleRepository roleRepository;
+	private final ModelMapper modelMapper;
 
 	// Yeni bir rol oluşturma
 	@Transactional
-	public Role createRole(Role role) {
+	public RoleDTO createRole(RoleDTO roleDTO) {
+		Role role = modelMapper.map(roleDTO, Role.class);
 		role.setCreatedAt(LocalDateTime.now());
 		role.setUpdatedAt(LocalDateTime.now());
 		role.setCreatedBy("system"); // Gelecekte, kimlik doğrulama kullanılırsa güncellenebilir
-		return rolesRepository.save(role);
+		Role savedRole = roleRepository.save(role);
+		return modelMapper.map(savedRole, RoleDTO.class);
 	}
 
 	// Var olan bir rolü güncelleme
 	@Transactional
-	public Role updateRole(Long id, Role updatedRole) {
-		return rolesRepository.findById(id).map(role -> {
+	public RoleDTO updateRole(Long id, RoleDTO updatedRoleDTO) {
+		Role updatedRole = modelMapper.map(updatedRoleDTO, Role.class);
+		return roleRepository.findById(id).map(role -> {
 			role.setRoleName(updatedRole.getRoleName());
 			role.setDescription(updatedRole.getDescription());
 			role.setUpdatedBy("system");
 			role.setUpdatedAt(LocalDateTime.now());
-			return rolesRepository.save(role);
+			Role savedRole = roleRepository.save(role);
+			return modelMapper.map(savedRole, RoleDTO.class);
 		}).orElseThrow(() -> new RuntimeException("Role not found"));
 	}
-
-	// Tüm rolleri listeleme
-	public List<Role> getAllRoles() {
-		return rolesRepository.findAll(); // Tüm rolleri döndür
-	}
-
-	// ID ile rolü bulma
-	public Role getRoleById(Long id) {
-		return rolesRepository.findById(id).orElse(null); // ID ile rolü bul
-	}
 	
-    // Role'ü isme göre bulma metodu
-    public Role findByRoleName(String name) {
-        return rolesRepository.findByRoleName(name)
-                .orElseThrow(() -> new RuntimeException("Role not found: " + name));
-    }
+	// Tüm rolleri listeleme 
+	public List<RoleDTO> getAllRoles() {
+		return roleRepository.findAll()
+				.stream()
+				.map(role -> modelMapper.map(role, RoleDTO.class))
+				.collect(Collectors.toList());
+	}
+
+	// ID ile rolü bulma 
+	public RoleDTO getRoleById(Long id) {
+		Role role = roleRepository.findById(id)
+				.orElseThrow(() -> new RuntimeException("Role not found"));
+		return modelMapper.map(role, RoleDTO.class);
+	}
+
+	// Role'ü isme göre bulma 
+	public RoleDTO findByRoleName(String name) {
+		Role role = roleRepository.findByRoleName(name)
+				.orElseThrow(() -> new RuntimeException("Role not found: " + name));
+		return modelMapper.map(role, RoleDTO.class);
+	}
 
 	// Rolü silme
 	@Transactional
 	public void hardDeleteRole(Long id) {
-		rolesRepository.deleteById(id); // Rolü sil
+		roleRepository.deleteById(id);
 	}
 
 	@Transactional
 	public void softDeleteRole(Long id) {
-		rolesRepository.findById(id).ifPresent(role -> {
+		roleRepository.findById(id).ifPresent(role -> {
 			role.setDeletedAt(LocalDateTime.now());
 			role.setDeletedBy("system");
-			rolesRepository.save(role);
+			roleRepository.save(role);
 		});
 	}
 }

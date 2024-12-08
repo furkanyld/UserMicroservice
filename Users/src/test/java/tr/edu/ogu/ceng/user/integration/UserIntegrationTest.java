@@ -8,6 +8,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.time.LocalDateTime;
+import java.util.Optional;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -78,15 +79,29 @@ class UserIntegrationTest {
 
     @Test
     void testUpdateUser() {
-        // Mock davranışı: usersRepository.save(user) çağrıldığında user döndür
+        // Mock davranışı: usersRepository.findById(user.getId()) çağrıldığında Optional.of(user) döndür
+        when(usersRepository.findById(user.getId())).thenReturn(Optional.of(user));
+
+        // Mock davranışı: usersRepository.save(user) çağrıldığında güncellenmiş user döndür
         when(usersRepository.save(user)).thenReturn(user);
 
+        // Güncellenmiş verileri userDTO'ya set et
+        user.setUsername("testuser"); // Kullanıcı adını güncelle
+        user.setEmail("testuser@example.com"); // E-posta adresini güncelle
+        user.setPasswordHash("newpassword123"); // Şifreyi güncelle
+
         // Metodu çağır
-        User updatedUser = usersService.updateUser(user);
+        User updatedUser = usersService.updateUser(user.getId(), user);
 
         // Sonucun null olmadığını doğrula ve özelliklerini kontrol et
         assertNotNull(updatedUser);
         assertEquals("testuser", updatedUser.getUsername());
+        assertEquals("testuser@example.com", updatedUser.getEmail());
+        assertEquals("newpassword123", updatedUser.getPasswordHash());
+
+        // Veritabanında save metodunun çağrıldığını doğrula
         verify(usersRepository, times(1)).save(user);
+        verify(usersRepository, times(1)).findById(user.getId());
     }
+
 }
