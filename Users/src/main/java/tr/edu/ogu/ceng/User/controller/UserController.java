@@ -111,4 +111,10 @@ public class UserController {
     	UserDTO updatedUserDTO = userService.updateUserEmail(id, newEmail);
     	return ResponseEntity.ok(updatedUserDTO);
     }
+    
+    @PutMapping("/updateUserStatus{id}")
+    public ResponseEntity<UserDTO> updateUserStatus(@PathVariable Long id, @RequestHeader("New-Status") String newStatus){
+    	UserDTO updatedUserDTO = userService.updateUserStatus(id, newStatus);
+    	return ResponseEntity.ok(updatedUserDTO);
+    }
 }

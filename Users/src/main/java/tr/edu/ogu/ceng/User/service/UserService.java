@@ -78,10 +78,12 @@ public class UserService {
 		return userRepository.findAll();
 	}
 
-	public User changeUserStatus(Long id, String newStatus) {
+	public UserDTO updateUserStatus(Long id, String newStatus) {
 		User user = userRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("User not found"));
 		user.setStatus(newStatus);
-		return userRepository.save(user);
+		userRepository.save(user);
+		UserDTO userDTO = modelMapper.map(user, UserDTO.class);
+		return userDTO;
 	}
 
 	public UserDTO updateUserPassword(Long id, String newPasswordHash) {
