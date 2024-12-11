@@ -4,10 +4,12 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestClient;
 
 import lombok.RequiredArgsConstructor;
+import tr.edu.ogu.ceng.User.dto.UserDTO;
 import tr.edu.ogu.ceng.User.entity.User;
 import tr.edu.ogu.ceng.User.repository.UserRepository;
 
@@ -18,6 +20,7 @@ public class UserService {
 	private final UserRepository userRepository;
 
 	private final RestClient restClient;
+	private final ModelMapper modelMapper;
 
 	public User createUser(User user) {
 		// farklı bir mikroservise istek atma
@@ -81,10 +84,19 @@ public class UserService {
 		return userRepository.save(user);
 	}
 
-	public User updateUserPassword(Long id, String newPasswordHash) {
+	public UserDTO updateUserPassword(Long id, String newPasswordHash) {
 		User user = userRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("User not found"));
 		user.setPasswordHash(newPasswordHash);
-		return userRepository.save(user);
+		userRepository.save(user);
+		UserDTO updatedUserDTO =  modelMapper.map(user, UserDTO.class);
+		return updatedUserDTO;
 	}
 
+	public UserDTO updateUserEmail(Long id, String newEmail) {
+		User user = userRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("User not found"));
+		user.setEmail(newEmail);
+		userRepository.save(user);
+		UserDTO updatedUserDTO =  modelMapper.map(user, UserDTO.class);
+		return updatedUserDTO;
+	}
 }

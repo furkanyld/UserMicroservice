@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -52,12 +53,12 @@ public class UserController {
     public ResponseEntity<UserDTO> getUserById(@PathVariable Long id) {
     	Optional<User> userOpt = userService.getUserById(id); // Optional<User> döndürüyor
 
-        if (userOpt.isEmpty()) { // Kullanıcı bulunamadıysa
+        if (userOpt.isEmpty()) { 
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
         }
 
-        User user = userOpt.get(); // Kullanıcıyı al
-        UserDTO userDTO = modelMapper.map(user, UserDTO.class); // UserDTO'ya dönüştür
+        User user = userOpt.get(); 
+        UserDTO userDTO = modelMapper.map(user, UserDTO.class); 
         return ResponseEntity.ok(userDTO);
     }
 
@@ -71,10 +72,9 @@ public class UserController {
         return ResponseEntity.ok(userDTOs);
     }
 
-    // Update an existing user
     @PutMapping("/updateUser{id}")
     public ResponseEntity<UserDTO> updateUser(@PathVariable Long id, @RequestBody UserDTO userDTO) {
-        // ID ile kullanıcıyı alıyoruz
+
         Optional<User> existingUserOpt = userService.getUserById(id);
         
         return existingUserOpt
@@ -86,10 +86,7 @@ public class UserController {
                     existingUser.setUpdatedAt(LocalDateTime.now());
                     existingUser.setUpdatedBy("system");
 
-                    // Kullanıcıyı güncelle
                     User updatedUser = userService.updateUser(id, existingUser);
-
-                    // Güncellenmiş kullanıcıyı DTO'ya dönüştür
                     UserDTO updatedUserDTO = modelMapper.map(updatedUser, UserDTO.class);
 
                     return ResponseEntity.ok(updatedUserDTO);
@@ -97,11 +94,21 @@ public class UserController {
                 .orElseThrow(() -> new RuntimeException("User not found with ID: " + id));
     }
     
-    // Delete a user
     @DeleteMapping("/deleteUser{id}")
     public ResponseEntity<String> deleteUser(@PathVariable Long id) {
         userService.deleteUserById(id);
         return ResponseEntity.ok("User deleted successfully");
     }
+    
+    @PutMapping("/updateUserPassword{id}")
+    public ResponseEntity<UserDTO> updateUserPassword(@PathVariable Long id,@RequestHeader("New-Password") String newPasswordHash){
+    	UserDTO updatedUserDTO = userService.updateUserPassword(id, newPasswordHash);
+    	return ResponseEntity.ok(updatedUserDTO);
+    }
 
+    @PutMapping("/updateUserEmail{id}")
+    public ResponseEntity<UserDTO> updateUserEmail(@PathVariable Long id, @RequestHeader("New-Email") String newEmail){
+    	UserDTO updatedUserDTO = userService.updateUserEmail(id, newEmail);
+    	return ResponseEntity.ok(updatedUserDTO);
+    }
 }
