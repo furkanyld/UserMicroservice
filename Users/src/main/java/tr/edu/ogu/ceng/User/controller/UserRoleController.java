@@ -50,7 +50,7 @@ public class UserRoleController {
 	    return ResponseEntity.ok(userRoleDTOList);
     }
 
-	@DeleteMapping("/deleteUserRole")
+	@DeleteMapping("/deleteUserRole{id}")
 	public ResponseEntity<String> deleteUserRole(@PathVariable Long id) {
 	        userRoleService.deleteUserRole(id);
 	        return ResponseEntity.ok("UserRole deleted successfully.");
