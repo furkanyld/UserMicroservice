@@ -37,9 +37,6 @@ public class UserRoleService {
 	    Role role = roleRepository.findById(userRoleDTO.getRoleId())
 	            .orElseThrow(() -> new NoSuchElementException("Role not found with id: " + userRoleDTO.getRoleId()));
 	    
-	    if (user.getId() == userRoleDTO.getUserId()) {
-	        throw new IllegalArgumentException("This user already has a role.");
-	    }
 	    
 	    UserRole userRole = new UserRole();
 	    userRole.setUser(user);
