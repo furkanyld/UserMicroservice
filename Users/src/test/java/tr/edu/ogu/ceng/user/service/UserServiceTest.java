@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.junit.jupiter.api.Test;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -30,6 +31,9 @@ class UserServiceTest extends Parent{
 
 	@Autowired
 	private UserService userservice;
+	
+	@Autowired
+	private ModelMapper modelMapper;
 
 	@Test
 	void testCreateUser() {
@@ -128,7 +132,7 @@ class UserServiceTest extends Parent{
 		when(userRepository.findById(userId)).thenReturn(Optional.of(mockUser));
 		when(userRepository.save(mockUser)).thenReturn(mockUser);
 
-		User result = userservice.changeUserStatus(userId, newStatus);
+		User result = modelMapper.map(userservice.updateUserStatus(userId, newStatus), User.class);
 
 		assertEquals(newStatus, result.getStatus());
 		verify(userRepository, times(1)).save(mockUser);
