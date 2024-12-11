@@ -23,8 +23,7 @@ public class UserService {
 	private final ModelMapper modelMapper;
 
 	public User createUser(User user) {
-		// farklı bir mikroservise istek atma
-		
+		// farklı bir mikroservise istek atma		
 		/*restClient.get().uri("http://192.168.137.149:8001/users/1")
 				.accept(org.springframework.http.MediaType.APPLICATION_JSON)
 				.retrieve()
@@ -33,26 +32,22 @@ public class UserService {
 		user.setCreatedAt(LocalDateTime.now());
 		user.setUpdatedAt(LocalDateTime.now());
 		user.setStatus("Active");
-		return userRepository.save(user); // Yeni kullanıcıyı kaydet
+		return userRepository.save(user); 
 	}
 
 	public User updateUser(Long id, User updatedUser) {
-		// Kullanıcıyı Optional ile alıyoruz
 	    Optional<User> existingUserOpt = userRepository.findById(id);
 	    
-	    // Eğer kullanıcı varsa, onu güncelle
 	    if (existingUserOpt.isPresent()) {
-	        User existingUser = existingUserOpt.get();  // Optional'dan kullanıcıyı alıyoruz
+	        User existingUser = existingUserOpt.get(); 
 	        existingUser.setUsername(updatedUser.getUsername());
 	        existingUser.setEmail(updatedUser.getEmail());
 	        existingUser.setPasswordHash(updatedUser.getPasswordHash());
 	        existingUser.setUpdatedAt(LocalDateTime.now());
-	        existingUser.setUpdatedBy("system"); // Gelecekte kimlik doğrulama eklenebilir
+	        existingUser.setUpdatedBy("system"); 
 
-	        // Güncellenmiş kullanıcıyı kaydet
 	        return userRepository.save(existingUser);
 	    } else {
-	        // Kullanıcı bulunamazsa, hata fırlatıyoruz
 	        throw new RuntimeException("User not found with ID: " + id);
 	    }
 	}

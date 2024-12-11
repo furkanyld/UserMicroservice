@@ -39,7 +39,6 @@ public class UserController {
 		return ResponseEntity.ok(userDTO);
 	}
 
-    // Create a new user
     @PostMapping("/createUser")
     public ResponseEntity<UserDTO> createUser(@RequestBody UserDTO userDTO) {
         User user = modelMapper.map(userDTO, User.class);
@@ -48,7 +47,6 @@ public class UserController {
         return ResponseEntity.ok(createdUserDTO);
     }
 
-    // Get user by ID
     @GetMapping("/getUserById{id}")
     public ResponseEntity<UserDTO> getUserById(@PathVariable Long id) {
     	Optional<User> userOpt = userService.getUserById(id); // Optional<User> döndürüyor
@@ -62,7 +60,6 @@ public class UserController {
         return ResponseEntity.ok(userDTO);
     }
 
-    // Get all users
     @GetMapping("/getAllUsers")
     public ResponseEntity<List<UserDTO>> getAllUsers() {
         List<User> users = userService.getAllUsers();

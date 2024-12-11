@@ -22,7 +22,6 @@ public class RoleService {
 	private final RoleRepository roleRepository;
 	private final ModelMapper modelMapper;
 
-	// Yeni bir rol oluşturma
 	@Transactional
 	public RoleDTO createRole(RoleDTO roleDTO) {
 		Role role = modelMapper.map(roleDTO, Role.class);
@@ -33,7 +32,6 @@ public class RoleService {
 		return modelMapper.map(savedRole, RoleDTO.class);
 	}
 
-	// Var olan bir rolü güncelleme
 	@Transactional
 	public RoleDTO updateRole(Long id, RoleDTO updatedRoleDTO) {
 		Role updatedRole = modelMapper.map(updatedRoleDTO, Role.class);
@@ -47,7 +45,6 @@ public class RoleService {
 		}).orElseThrow(() -> new RuntimeException("Role not found"));
 	}
 	
-	// Tüm rolleri listeleme 
 	public List<RoleDTO> getAllRoles() {
 		return roleRepository.findAll()
 				.stream()
@@ -55,21 +52,18 @@ public class RoleService {
 				.collect(Collectors.toList());
 	}
 
-	// ID ile rolü bulma 
 	public RoleDTO getRoleById(Long id) {
 		Role role = roleRepository.findById(id)
 				.orElseThrow(() -> new RuntimeException("Role not found"));
 		return modelMapper.map(role, RoleDTO.class);
 	}
 
-	// Role'ü isme göre bulma 
 	public RoleDTO findByRoleName(String name) {
 		Role role = roleRepository.findByRoleName(name)
 				.orElseThrow(() -> new RuntimeException("Role not found: " + name));
 		return modelMapper.map(role, RoleDTO.class);
 	}
 
-	// Rolü silme
 	@Transactional
 	public void hardDeleteRole(Long id) {
 		roleRepository.deleteById(id);

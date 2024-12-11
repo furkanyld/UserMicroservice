@@ -1,6 +1,5 @@
 package tr.edu.ogu.ceng.User.entity;
 
-import org.modelmapper.ModelMapper;
 import java.time.LocalDateTime;
 
 import jakarta.persistence.Column;

@@ -25,34 +25,32 @@ import tr.edu.ogu.ceng.User.service.UserRoleService;
 @RequiredArgsConstructor
 public class UserRoleController {
 	private final UserRoleService userRoleService;
-	
+
 	@PostMapping("/createUserRole")
 	public ResponseEntity<UserRoleDTO> createUserRole(@RequestBody UserRoleDTO userRoleDTO) {
-		    UserRoleDTO createdUserRoleDTO = userRoleService.createUserRole(userRoleDTO);
-		    return ResponseEntity.ok(createdUserRoleDTO);
+		UserRoleDTO createdUserRoleDTO = userRoleService.createUserRole(userRoleDTO);
+		return ResponseEntity.ok(createdUserRoleDTO);
 
 	}
-	
+
 	@PutMapping("/updateUserRole{id}")
-    public ResponseEntity<UserRoleDTO> updateUserRole(
-            @PathVariable Long id,
-            @RequestBody UserRoleDTO userRoleDTO,
-            @RequestHeader("Updated-By") String updatedBy) {
+	public ResponseEntity<UserRoleDTO> updateUserRole(@PathVariable Long id, @RequestBody UserRoleDTO userRoleDTO,
+			@RequestHeader("Updated-By") String updatedBy) {
 
-        	UserRoleDTO updatedUserRoleDTO = userRoleService.updateUserRole(id, userRoleDTO, updatedBy);
-            return ResponseEntity.ok(updatedUserRoleDTO);
+		UserRoleDTO updatedUserRoleDTO = userRoleService.updateUserRole(id, userRoleDTO, updatedBy);
+		return ResponseEntity.ok(updatedUserRoleDTO);
 
-    }
-	
+	}
+
 	@GetMapping("/getAllUserRoles")
-    public ResponseEntity<List<UserRoleDTO>> getAllUserRoles() {
+	public ResponseEntity<List<UserRoleDTO>> getAllUserRoles() {
 		List<UserRoleDTO> userRoleDTOList = userRoleService.getAllUserRoles();
-	    return ResponseEntity.ok(userRoleDTOList);
-    }
+		return ResponseEntity.ok(userRoleDTOList);
+	}
 
 	@DeleteMapping("/deleteUserRole{id}")
 	public ResponseEntity<String> deleteUserRole(@PathVariable Long id) {
-	        userRoleService.deleteUserRole(id);
-	        return ResponseEntity.ok("UserRole deleted successfully.");
+		userRoleService.deleteUserRole(id);
+		return ResponseEntity.ok("UserRole deleted successfully.");
 	}
 }
