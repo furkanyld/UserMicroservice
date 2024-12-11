@@ -1,5 +1,10 @@
 package tr.edu.ogu.ceng.User.dto;
 
-public class UserRoleDTO {
+import lombok.Data;
 
+@Data
+public class UserRoleDTO {
+	private Long id;
+	private Long userId;
+	private Long roleId;
 }

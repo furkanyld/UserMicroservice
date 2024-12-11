@@ -10,18 +10,25 @@ import static org.mockito.Mockito.when;
 import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 import org.junit.jupiter.api.Test;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 
 import common.Parent;
+import tr.edu.ogu.ceng.User.dto.UserRoleDTO;
 import tr.edu.ogu.ceng.User.entity.Role;
 import tr.edu.ogu.ceng.User.entity.User;
 import tr.edu.ogu.ceng.User.entity.UserRole;
+import tr.edu.ogu.ceng.User.repository.RoleRepository;
+import tr.edu.ogu.ceng.User.repository.UserRepository;
 import tr.edu.ogu.ceng.User.repository.UserRoleRepository;
+import tr.edu.ogu.ceng.User.service.RoleService;
 import tr.edu.ogu.ceng.User.service.UserRoleService;
+import tr.edu.ogu.ceng.User.service.UserService;
 
 @SpringBootTest
 class UserRoleServiceTest extends Parent {
@@ -31,52 +38,91 @@ class UserRoleServiceTest extends Parent {
 
 	@Autowired
 	private UserRoleService userRolesService;
+	
+	@Autowired
+	private UserRepository userRepository;
+	
+	@Autowired
+	private RoleRepository roleRepository;
+	
+	@Autowired
+	private ModelMapper modelMapper;
 
 	@Test
 	void testCreateUserRoles() {
-		User user = new User();
-		user.setId(1L);
+	    // Test verileri oluştur
+	    UserRoleDTO userRoleDTO = new UserRoleDTO();
+	    userRoleDTO.setUserId(1L);
+	    userRoleDTO.setRoleId(1L);
 
-		Role role = new Role();
-		role.setId(1L);
+	    // User ve Role nesnelerini oluştur
+	    User user = new User();
+	    user.setId(1L);
 
-		UserRole userRole = new UserRole();
-		userRole.setUser(user);
-		userRole.setRole(role);
-		userRole.setAssignedAt(LocalDateTime.now());
+	    Role role = new Role();
+	    role.setId(1L);
 
-		when(userRolesRepository.save(userRole)).thenReturn(userRole);
+	    UserRole userRole = new UserRole();
+	    userRole.setUser(user);
+	    userRole.setRole(role);
+	    userRole.setAssignedAt(LocalDateTime.now());
 
-		UserRole createdUserRole = userRolesService.createUserRoles(userRole);
+	    // UserRole DTO'dan UserRole nesnesine dönüşüm
+	    when(userRepository.findById(userRoleDTO.getUserId())).thenReturn(Optional.of(user));
+	    when(roleRepository.findById(userRoleDTO.getRoleId())).thenReturn(Optional.of(role));
+	    when(userRolesRepository.save(userRole)).thenReturn(userRole);
 
-		assertNotNull(createdUserRole);
-		assertEquals(user, createdUserRole.getUser());
-		assertEquals(role, createdUserRole.getRole());
-		verify(userRolesRepository, times(1)).save(userRole);
+	    // Service metodunu çağır
+	    UserRole createdUserRole = modelMapper.map(userRolesService.createUserRole(userRoleDTO), UserRole.class);
+
+	    // Asserts
+	    assertNotNull(createdUserRole);
+	    assertEquals(user, createdUserRole.getUser());
+	    assertEquals(role, createdUserRole.getRole());
+	    verify(userRepository, times(1)).findById(userRoleDTO.getUserId());
+	    verify(roleRepository, times(1)).findById(userRoleDTO.getRoleId());
+	    verify(userRolesRepository, times(1)).save(userRole);
 	}
+
 
 	@Test
 	void testUpdateUserRoles() {
-		User user = new User();
-		user.setId(1L);
+	    // Test verisi olarak UserRoleDTO oluştur
+	    UserRoleDTO userRoleDTO = new UserRoleDTO();
+	    userRoleDTO.setId(1L);
+	    userRoleDTO.setUserId(1L);  // User'ın ID'si
+	    userRoleDTO.setRoleId(2L);  // Role'un ID'si
 
-		Role role = new Role();
-		role.setId(2L);
+	    // User ve Role nesneleri oluştur
+	    User user = new User();
+	    user.setId(1L);
 
-		UserRole userRole = new UserRole();
-		userRole.setId(1L);
-		userRole.setUser(user);
-		userRole.setRole(role);
-		userRole.setAssignedAt(LocalDateTime.now());
+	    Role role = new Role();
+	    role.setId(2L);
 
-		when(userRolesRepository.save(userRole)).thenReturn(userRole);
+	    UserRole userRole = new UserRole();
+	    userRole.setId(1L);
+	    userRole.setUser(user);
+	    userRole.setRole(role);
+	    userRole.setAssignedAt(LocalDateTime.now());
 
-		UserRole updatedUserRole = userRolesService.updateUserRoles(userRole);
+	    // User ve Role nesnelerinin bulunması için mocklama
+	    when(userRepository.findById(userRoleDTO.getUserId())).thenReturn(Optional.of(user));
+	    when(roleRepository.findById(userRoleDTO.getRoleId())).thenReturn(Optional.of(role));
+	    when(userRolesRepository.save(userRole)).thenReturn(userRole);
 
-		assertNotNull(updatedUserRole);
-		assertEquals(role, updatedUserRole.getRole());
-		verify(userRolesRepository, times(1)).save(userRole);
+	    // Service metodunu çağır
+	    UserRole updatedUserRole = modelMapper.map(userRolesService.updateUserRole(userRole.getId(), userRoleDTO, "system"), UserRole.class);
+
+	    // Asserts
+	    assertNotNull(updatedUserRole);
+	    assertEquals(role, updatedUserRole.getRole());
+	    assertEquals(user, updatedUserRole.getUser());
+	    verify(userRepository, times(1)).findById(userRoleDTO.getUserId());
+	    verify(roleRepository, times(1)).findById(userRoleDTO.getRoleId());
+	    verify(userRolesRepository, times(1)).save(userRole);
 	}
+
 
 	@Test
 	void testGetAllUserRoles() {
@@ -106,7 +152,7 @@ class UserRoleServiceTest extends Parent {
 
 		when(userRolesRepository.findAll()).thenReturn(Arrays.asList(userRole1, userRole2));
 
-		List<UserRole> userRolesList = userRolesService.getAllUserRoles();
+		List<UserRoleDTO> userRolesList = userRolesService.getAllUserRoles();
 
 		assertNotNull(userRolesList);
 		assertEquals(2, userRolesList.size());

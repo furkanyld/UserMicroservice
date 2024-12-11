@@ -20,11 +20,16 @@ public class UserService {
 	private final RestClient restClient;
 
 	public User createUser(User user) {
-		restClient.get().uri("http://192.168.137.149:8001/users/1")
+		// farklı bir mikroservise istek atma
+		
+		/*restClient.get().uri("http://192.168.137.149:8001/users/1")
 				.accept(org.springframework.http.MediaType.APPLICATION_JSON)
 				.retrieve()
 				  	.body(User.class);
-
+				  	*/
+		user.setCreatedAt(LocalDateTime.now());
+		user.setUpdatedAt(LocalDateTime.now());
+		user.setStatus("Active");
 		return userRepository.save(user); // Yeni kullanıcıyı kaydet
 	}
 

@@ -46,14 +46,14 @@ public class RoleController {
 	}
 	
 	// Rol güncelleme
-	@PutMapping("/{id}")
+	@PutMapping("/updateRole{id}")
 	public ResponseEntity<RoleDTO> updateRole(@PathVariable Long id, @RequestBody RoleDTO updatedRoleDTO) {
 		RoleDTO updatedRole = roleService.updateRole(id, updatedRoleDTO);
 		return ResponseEntity.ok(updatedRole);
 	}
 
 	// Rol silme
-	@DeleteMapping("/{id}")
+	@DeleteMapping("/deleteRole{id}")
 	public ResponseEntity<Void> deleteRole(@PathVariable Long id) {
 		roleService.hardDeleteRole(id);
 		return ResponseEntity.noContent().build();
