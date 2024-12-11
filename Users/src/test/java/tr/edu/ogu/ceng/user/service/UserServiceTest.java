@@ -17,6 +17,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 
 import common.Parent;
+import tr.edu.ogu.ceng.User.dto.UserDTO;
 import tr.edu.ogu.ceng.User.entity.User;
 import tr.edu.ogu.ceng.User.repository.UserRepository;
 import tr.edu.ogu.ceng.User.service.UserService;
@@ -145,9 +146,9 @@ class UserServiceTest extends Parent{
 		when(userRepository.findById(userId)).thenReturn(Optional.of(mockUser));
 		when(userRepository.save(mockUser)).thenReturn(mockUser);
 
-		User result = userservice.updateUserPassword(userId, newPasswordHash);
+		UserDTO resultDTO = userservice.updateUserPassword(userId, newPasswordHash);
 
-		assertEquals(newPasswordHash, result.getPasswordHash());
+		assertEquals(newPasswordHash, resultDTO.getPasswordHash());
 		verify(userRepository, times(1)).save(mockUser);
 	}
 
