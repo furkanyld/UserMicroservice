@@ -25,7 +25,6 @@ import tr.edu.ogu.ceng.User.service.RoleService;
 @RequiredArgsConstructor
 public class RoleController {
 	private final RoleService roleService;
-	private final ModelMapper modelMapper;
 
 	@GetMapping("/getRoleById{id}")
 	public ResponseEntity<RoleDTO> getRoleById(@PathVariable Long id) {
