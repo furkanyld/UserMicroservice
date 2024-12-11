@@ -28,12 +28,9 @@ public class UserRoleController {
 	
 	@PostMapping("/createUserRole")
 	public ResponseEntity<UserRoleDTO> createUserRole(@RequestBody UserRoleDTO userRoleDTO) {
-		try {
 		    UserRoleDTO createdUserRoleDTO = userRoleService.createUserRole(userRoleDTO);
 		    return ResponseEntity.ok(createdUserRoleDTO);
-		} catch (Exception e) {
-			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
-		}
+
 	}
 	
 	@PutMapping("/updateUserRole{id}")
@@ -42,16 +39,9 @@ public class UserRoleController {
             @RequestBody UserRoleDTO userRoleDTO,
             @RequestHeader("Updated-By") String updatedBy) {
 
-        try {
         	UserRoleDTO updatedUserRoleDTO = userRoleService.updateUserRole(id, userRoleDTO, updatedBy);
             return ResponseEntity.ok(updatedUserRoleDTO);
-        }catch(NoSuchElementException e) {
-        	return ResponseEntity.status(HttpStatus.NOT_FOUND)
-        			.body(null);
-        }catch(Exception e) {
-        	return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                    .body(null);
-        }
+
     }
 	
 	@GetMapping("/getAllUserRoles")
@@ -60,13 +50,9 @@ public class UserRoleController {
 	    return ResponseEntity.ok(userRoleDTOList);
     }
 
-	@DeleteMapping("/deleteUserRole{id}")
+	@DeleteMapping("/deleteUserRole")
 	public ResponseEntity<String> deleteUserRole(@PathVariable Long id) {
-	    try {
 	        userRoleService.deleteUserRole(id);
 	        return ResponseEntity.ok("UserRole deleted successfully.");
-	    } catch (NoSuchElementException e) {
-	        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
-	    }
-	}
+
 }
