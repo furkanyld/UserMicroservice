@@ -29,10 +29,21 @@ public class UserService {
 				.retrieve()
 				  	.body(User.class);
 				  	*/
+		
 		user.setCreatedAt(LocalDateTime.now());
 		user.setUpdatedAt(LocalDateTime.now());
 		user.setStatus("Active");
+		
+		restClient.post()
+        .uri("http://192.168.137.111:8004/api/v1/notification/{id}")
+        .accept(org.springframework.http.MediaType.APPLICATION_JSON)
+        .retrieve()
+        .body(User.class);
+        
+		
 		return userRepository.save(user); 
+		
+		
 	}
 
 	public User updateUser(Long id, User updatedUser) {
@@ -46,6 +57,8 @@ public class UserService {
 	        existingUser.setUpdatedAt(LocalDateTime.now());
 	        existingUser.setUpdatedBy("system"); 
 
+	        
+	        
 	        return userRepository.save(existingUser);
 	    } else {
 	        throw new RuntimeException("User not found with ID: " + id);
