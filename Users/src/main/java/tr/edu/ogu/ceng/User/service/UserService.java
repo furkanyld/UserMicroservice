@@ -23,27 +23,27 @@ public class UserService {
 	private final ModelMapper modelMapper;
 
 	public User createUser(User user) {
-		// farklı bir mikroservise istek atma		
-		/*restClient.get().uri("http://192.168.137.149:8001/users/1")
-				.accept(org.springframework.http.MediaType.APPLICATION_JSON)
-				.retrieve()
-				  	.body(User.class);
-				  	*/
-		
 		user.setCreatedAt(LocalDateTime.now());
 		user.setUpdatedAt(LocalDateTime.now());
 		user.setStatus("Active");
 		
-		restClient.post()
-        .uri("http://192.168.137.111:8004/api/v1/notification/{id}")
-        .accept(org.springframework.http.MediaType.APPLICATION_JSON)
-        .retrieve()
-        .body(User.class);
-        
+		User savedUser = userRepository.save(user);
 		
-		return userRepository.save(user); 
-		
-		
+		if(savedUser != null && savedUser.getId() != null) {
+			restClient.post()
+	        .uri("http://192.168.137.111:8004/api/v1/notification/createUserNotificationId")// Notification mikroservisinde bu metot bulunmadığından varsayımsal oluşturuldu.
+	        .accept(org.springframework.http.MediaType.APPLICATION_JSON)
+	        .retrieve()
+	        .body(User.class);
+		}
+		else {
+            restClient.post()
+            .uri("http://192.168.137.111:8004/api/v1/createFailureNotificationId")// Kullanıcı oluşturulamazsa hata bildirimi gönderilecek.
+            .accept(org.springframework.http.MediaType.APPLICATION_JSON)
+            .retrieve()
+            .body(User.class);
+		}	
+		return user; 	
 	}
 
 	public User updateUser(Long id, User updatedUser) {
@@ -57,10 +57,19 @@ public class UserService {
 	        existingUser.setUpdatedAt(LocalDateTime.now());
 	        existingUser.setUpdatedBy("system"); 
 
-	        
+			restClient.post()
+	        .uri("http://192.168.137.111:8004/api/v1/notification/updateUserNotificationId")// Varsayımsal oluşturuldu.
+	        .accept(org.springframework.http.MediaType.APPLICATION_JSON)
+	        .retrieve()
+	        .body(User.class);
 	        
 	        return userRepository.save(existingUser);
 	    } else {
+            restClient.post()
+            .uri("http://192.168.137.111:8004/api/v1/{updateFailureNotificationId}")// Kullanıcı güncelleştirilemezse hata bildirimi gönderilecek.
+            .accept(org.springframework.http.MediaType.APPLICATION_JSON)
+            .retrieve()
+            .body(User.class);
 	        throw new RuntimeException("User not found with ID: " + id);
 	    }
 	}
@@ -80,6 +89,11 @@ public class UserService {
 
 	public void deleteUserById(Long id) {
 		userRepository.deleteById(id);
+		restClient.post()
+        .uri("http://192.168.137.111:8004/api/v1/notification/deleteUserNotificationId")// Varsayımsal oluşturuldu.
+        .accept(org.springframework.http.MediaType.APPLICATION_JSON)
+        .retrieve()
+        .body(User.class);
 	}
 
 	public List<User> getAllUsers() {
@@ -90,6 +104,13 @@ public class UserService {
 		User user = userRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("User not found"));
 		user.setStatus(newStatus);
 		userRepository.save(user);
+		
+		restClient.post()
+        .uri("http://192.168.137.111:8004/api/v1/notification/updateUserStatusNotificationId")// Varsayımsal oluşturuldu.
+        .accept(org.springframework.http.MediaType.APPLICATION_JSON)
+        .retrieve()
+        .body(User.class);
+		
 		UserDTO userDTO = modelMapper.map(user, UserDTO.class);
 		return userDTO;
 	}
@@ -98,6 +119,13 @@ public class UserService {
 		User user = userRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("User not found"));
 		user.setPasswordHash(newPasswordHash);
 		userRepository.save(user);
+		
+		restClient.post()
+        .uri("http://192.168.137.111:8004/api/v1/notification/updateUserPasswordNotificationId")// Varsayımsal oluşturuldu.
+        .accept(org.springframework.http.MediaType.APPLICATION_JSON)
+        .retrieve()
+        .body(User.class);
+		
 		UserDTO updatedUserDTO =  modelMapper.map(user, UserDTO.class);
 		return updatedUserDTO;
 	}
@@ -106,6 +134,13 @@ public class UserService {
 		User user = userRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("User not found"));
 		user.setEmail(newEmail);
 		userRepository.save(user);
+		
+		restClient.post()
+        .uri("http://192.168.137.111:8004/api/v1/notification/updateUserEmailNotificationId")// Varsayımsal oluşturuldu.
+        .accept(org.springframework.http.MediaType.APPLICATION_JSON)
+        .retrieve()
+        .body(User.class);
+		
 		UserDTO updatedUserDTO =  modelMapper.map(user, UserDTO.class);
 		return updatedUserDTO;
 	}

@@ -36,7 +36,7 @@ public class UserController {
 	    User user = userService.getByUsername(username)
 	            .orElseThrow(() -> new IllegalArgumentException("User not found"));
 	    UserDTO userDTO = modelMapper.map(user, UserDTO.class);
-		return ResponseEntity.ok(userDTO);
+	    return ResponseEntity.ok(userDTO);
 	}
 
     @PostMapping("/createUser")
@@ -44,7 +44,7 @@ public class UserController {
         User user = modelMapper.map(userDTO, User.class);
         User createdUser = userService.createUser(user);
         UserDTO createdUserDTO = modelMapper.map(createdUser, UserDTO.class);
-        return ResponseEntity.ok(createdUserDTO);
+        return ResponseEntity.status(HttpStatus.CREATED).body(createdUserDTO);
     }
 
     @GetMapping("/getUserById{id}")

@@ -8,6 +8,7 @@ import java.util.stream.Collectors;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestClient;
 
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -46,7 +47,7 @@ public class UserRoleService {
 	    userRole.setUpdatedAt(LocalDateTime.now());
 
 	    userRole = userRoleRepository.save(userRole);
-
+		
 	    UserRoleDTO responseDTO = modelMapper.map(userRole, UserRoleDTO.class);
 	    responseDTO.setRoleId(role.getId());
 	    responseDTO.setUserId(user.getId());
